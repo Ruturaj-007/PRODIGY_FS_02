@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: ems-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ems
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ems-network
+
+  app:
+    build: .
+    container_name: ems-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: ems
+    depends_on:
+      - mongodb
+    networks:
+      - ems-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  ems-network:
+    driver: bridge

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee - EMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .update-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .update-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .update-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .update-header h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .update-body {
+            padding: 40px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+        }
+
+        .info-badge {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="update-container">
+    <div class="update-card">
+        <div class="update-header">
+            <i class="fas fa-user-edit fa-3x mb-3"></i>
+            <h2>Update Employee Details</h2>
+            <p class="mb-0">Modify employee information</p>
+        </div>
+
+        <div class="update-body">
+            <!-- Employee ID Info Badge -->
+            <div class="info-badge">
+                <strong><i class="fas fa-info-circle me-2"></i>Employee ID:</strong>
+                <span class="badge bg-primary ms-2" th:text="${employee.id}">EMP001</span>
+            </div>
+
+            <!-- Update Form -->
+            <form th:action="@{/update}" th:object="${employee}" method="post">
+                <!-- Hidden ID field -->
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-user me-2 text-primary"></i>Full Name
+                        </label>
+                        <input type="text" class="form-control"
+                               th:field="*{employeeName}"
+                               placeholder="Enter full name" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                        </label>
+                        <input type="email" class="form-control"
+                               th:field="*{employeeEmail}"
+                               placeholder="Enter email" required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-phone me-2 text-primary"></i>Phone Number
+                        </label>
+                        <input type="text" class="form-control"
+                               th:field="*{employeePhone}"
+                               placeholder="10-digit phone number"
+                               required pattern="[0-9]{10}"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-venus-mars me-2 text-primary"></i>Gender
+                        </label>
+                        <select class="form-select" th:field="*{employeeGender}" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-money-bill-wave me-2 text-primary"></i>Salary
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" class="form-control"
+                                   th:field="*{employeeSalary}"
+                                   placeholder="Enter salary"
+                                   required min="0"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <i class="fas fa-briefcase me-2 text-primary"></i>Job Role
+                        </label>
+                        <input type="text" class="form-control"
+                               th:field="*{employeeRole}"
+                               placeholder="Enter job role" required/>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="col-12 mt-4">
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="fas fa-save me-2"></i>Update Employee
+                            </button>
+                            <a href="/" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to Dashboard Link -->
+    <div class="text-center mt-4">
+        <a href="/" class="text-decoration-none">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
