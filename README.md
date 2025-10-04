@@ -1,4 +1,4 @@
-Employee Management System
+#Employee Management System
 
 A modern, secure, and feature-rich Employee Management System built with Spring Boot, Thymeleaf, and MongoDB. Manage employee records efficiently with role-based access control, advanced search, and an intuitive UI.
 
